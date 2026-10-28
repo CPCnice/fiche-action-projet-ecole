@@ -443,6 +443,15 @@ function encoderPourGrist(donnees) {
 async function envoyerVersGrist(donnees) {
   if (!window.grist) throw new Error("API Grist introuvable : ouvrez ce formulaire depuis Grist");
   const tableId = CONFIG.TABLE_ID || await grist.selectedTable.getTableId();
+
+  // Contrôle : chaque colonne attendue existe-t-elle dans la table ?
+  const existantes = Object.keys(await grist.docApi.fetchTable(tableId))
+    .filter(c => c !== "id" && c !== "manualSort" && !c.startsWith("gristHelper_"));
+  const manquantes = Object.values(CONFIG.COLONNES).filter(c => !existantes.includes(c));
+  if (manquantes.length) {
+    throw new Error("Colonnes introuvables dans la table « " + tableId + " » : " + manquantes.join(", ") +
+      ". Colonnes disponibles : " + existantes.join(", "));
+  }
   await grist.docApi.applyUserActions([
     ["AddRecord", tableId, null, encoderPourGrist(donnees)]
   ]);
@@ -459,7 +468,7 @@ form.addEventListener("submit", async (e) => {
     afficher("La fiche action a bien été enregistrée.", "succes");
     form.reset();
   } catch (err) {
-    afficher("L’enregistrement a échoué. Vos données sont conservées : vérifiez votre connexion puis réessayez. (" + err.message + ")", "echec");
+    afficher("L’enregistrement a échoué. Vos données sont conservées. Détail : " + err.message, "echec");
   } finally {
     bouton.disabled = false;
   }
