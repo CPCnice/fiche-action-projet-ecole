@@ -216,26 +216,26 @@
       <div class="groupe-objectif">
         <h3>Objectif 1 — Accompagner chaque élève vers la réussite</h3>
         <div class="choix-liste">
-          <label class="choix"><input type="checkbox" name="objectifs" value="Renforcer la maîtrise des savoirs fondamentaux"> Renforcer la maîtrise des savoirs fondamentaux</label>
-          <label class="choix"><input type="checkbox" name="objectifs" value="Agir en faveur de l'égalité des chances"> Agir en faveur de l’égalité des chances</label>
-          <label class="choix"><input type="checkbox" name="objectifs" value="Construire des parcours ambitieux"> Construire des parcours ambitieux</label>
+          <label class="choix"><input type="checkbox" name="objectif_1" value="Renforcer la maîtrise des savoirs fondamentaux"> Renforcer la maîtrise des savoirs fondamentaux</label>
+          <label class="choix"><input type="checkbox" name="objectif_1" value="Agir en faveur de l'égalité des chances"> Agir en faveur de l’égalité des chances</label>
+          <label class="choix"><input type="checkbox" name="objectif_1" value="Construire des parcours ambitieux"> Construire des parcours ambitieux</label>
         </div>
       </div>
 
       <div class="groupe-objectif">
         <h3>Objectif 2 — Œuvrer pour un climat scolaire serein</h3>
         <div class="choix-liste">
-          <label class="choix"><input type="checkbox" name="objectifs" value="Prévenir et combattre toutes formes de violence"> Prévenir et combattre toutes formes de violence</label>
-          <label class="choix"><input type="checkbox" name="objectifs" value="Faire vivre ensemble les valeurs de la République"> Faire vivre ensemble les valeurs de la République</label>
+          <label class="choix"><input type="checkbox" name="objectif_2" value="Prévenir et combattre toutes formes de violence"> Prévenir et combattre toutes formes de violence</label>
+          <label class="choix"><input type="checkbox" name="objectif_2" value="Faire vivre ensemble les valeurs de la République"> Faire vivre ensemble les valeurs de la République</label>
         </div>
       </div>
 
       <div class="groupe-objectif">
         <h3>Objectif 3 — Permettre à tous les personnels de s’épanouir</h3>
         <div class="choix-liste">
-          <label class="choix"><input type="checkbox" name="objectifs" value="Attirer les meilleurs profils"> Attirer les meilleurs profils</label>
-          <label class="choix"><input type="checkbox" name="objectifs" value="Protéger et soutenir les personnels"> Protéger et soutenir les personnels</label>
-          <label class="choix"><input type="checkbox" name="objectifs" value="Accompagner les parcours professionnels"> Accompagner les parcours professionnels</label>
+          <label class="choix"><input type="checkbox" name="objectif_3" value="Attirer les meilleurs profils"> Attirer les meilleurs profils</label>
+          <label class="choix"><input type="checkbox" name="objectif_3" value="Protéger et soutenir les personnels"> Protéger et soutenir les personnels</label>
+          <label class="choix"><input type="checkbox" name="objectif_3" value="Accompagner les parcours professionnels"> Accompagner les parcours professionnels</label>
         </div>
       </div>
     </fieldset>
@@ -361,42 +361,45 @@
      ============================================================ -->
 <script>
 /* ------------------------------------------------------------
-   9.1 CONFIGURATION – seule partie à adapter
+   9.1 CONFIGURATION
+   Le formulaire retrouve AUTOMATIQUEMENT les colonnes de la table Grist
+   à partir de leur libellé (accents, majuscules et ponctuation ignorés).
+   Il suffit que le libellé de la colonne COMMENCE par le texte indiqué ci-dessous.
    ------------------------------------------------------------ */
 const CONFIG = {
-  // Identifiant de la table Grist qui reçoit les fiches (ex. "Saisie_projet_d_ecole").
-  // Laisser vide si le widget est lié à cette table : elle est alors détectée automatiquement.
+  // Identifiant de la table Grist. Laisser vide : la table liée au widget est utilisée.
   TABLE_ID: "",
 
-  // Correspondance : nom du champ HTML  →  identifiant de la colonne dans Grist
-  // (l’identifiant de colonne se lit dans Grist : panneau de droite > Colonne > « ID de colonne »)
+  // champ du formulaire  →  début du libellé de la colonne Grist
   COLONNES: {
-    nom_ecole:        "Nom_de_l_ecole",
-    code_uai:         "Code_RNE_UAI",
+    nom_ecole:        "Nom de l'école",
+    code_uai:         "Code RNE/UAI",
     circonscription:  "Circonscription",
-    directeur:        "Nom_du_directeur",
+    directeur:        "Nom du directeur",
     domaine:          "Domaine",
-    objectifs:        "Objectifs",
-    intitule:         "Intitule_de_l_action",
-    annee:            "Annee_scolaire",
-    cycles:           "Cycles",
-    niveaux:          "Niveaux",
-    duree:            "Duree",
+    objectif_1:       "Objectif 1",
+    objectif_2:       "Objectif 2",
+    objectif_3:       "Objectif 3",
+    intitule:         "Intitulé de l'action",
+    annee:            "Année scolaire",
+    cycles:           "Cycle",
+    niveaux:          "Niveau",
+    duree:            "Durée",
     levier:           "Levier",
-    mise_en_oeuvre:   "Elements_de_mise_en_oeuvre",
-    points_appui:     "Points_d_appui",
-    points_vigilance: "Points_de_vigilance",
+    mise_en_oeuvre:   "Eléments de mise en oeuvre",
+    points_appui:     "Points d'appui",
+    points_vigilance: "Points de vigilance",
     ressources:       "Ressources",
-    evaluation:       "Evaluation",
+    evaluation:       "Évaluation",
     commentaires:     "Commentaires"
   },
 
-  // Champs à choix multiples (envoyés sous forme de liste, colonne Grist de type « Liste de choix »)
-  CHAMPS_MULTIPLES: ["objectifs", "annee", "cycles", "niveaux"]
+  // Champs à choix multiples (plusieurs valeurs possibles)
+  CHAMPS_MULTIPLES: ["objectif_1", "objectif_2", "objectif_3", "annee", "cycles", "niveaux"]
 };
 
 /* ------------------------------------------------------------
-   9.2 Lecture des données saisies
+   9.2 Lecture des données saisies (par nom de champ du formulaire)
    ------------------------------------------------------------ */
 const form = document.getElementById("fiche-action");
 const message = document.getElementById("message");
@@ -406,12 +409,12 @@ function lireFormulaire() {
   for (const nom of Object.keys(CONFIG.COLONNES)) {
     const champs = form.querySelectorAll(`[name="${nom}"]`);
     if (CONFIG.CHAMPS_MULTIPLES.includes(nom)) {
-      donnees[CONFIG.COLONNES[nom]] = [...champs].filter(c => c.checked).map(c => c.value);
-    } else if (champs[0] && (champs[0].type === "radio")) {
+      donnees[nom] = [...champs].filter(c => c.checked).map(c => c.value);
+    } else if (champs[0].type === "radio") {
       const choisi = [...champs].find(c => c.checked);
-      donnees[CONFIG.COLONNES[nom]] = choisi ? choisi.value : null;
+      donnees[nom] = choisi ? choisi.value : "";
     } else {
-      donnees[CONFIG.COLONNES[nom]] = champs[0].value.trim();
+      donnees[nom] = champs[0].value.trim();
     }
   }
   return donnees;
@@ -427,34 +430,63 @@ function afficher(texte, type) {
 }
 
 /* ------------------------------------------------------------
-   9.4 Envoi vers Grist (endpoint des formulaires Grist)
+   9.4 Dialogue avec Grist : lecture des colonnes, appariement, écriture
    ------------------------------------------------------------ */
-// Grist attend les listes de choix sous la forme ["L", "choix 1", "choix 2"]
-function encoderPourGrist(donnees) {
-  const champs = {};
-  for (const nom of CONFIG.CHAMPS_MULTIPLES) {
-    const col = CONFIG.COLONNES[nom];
-    champs[col] = ["L", ...donnees[col]];
-    delete donnees[col];
-  }
-  return { ...donnees, ...champs };
+
+// Simplifie un texte pour comparer : sans accents, minuscules, lettres et chiffres seulement
+function normaliser(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/œ/g, "oe").replace(/[^a-z0-9]/g, "");
+}
+
+// Liste les colonnes de la table : identifiant, libellé et type
+async function lireColonnes(tableId) {
+  try {
+    const tables = await grist.docApi.fetchTable("_grist_Tables");
+    const ref = tables.id[tables.tableId.indexOf(tableId)];
+    const cols = await grist.docApi.fetchTable("_grist_Tables_column");
+    const res = [];
+    cols.id.forEach((_, i) => {
+      if (cols.parentId[i] === ref && !cols.colId[i].startsWith("gristHelper_")) {
+        res.push({ id: cols.colId[i], label: cols.label[i], type: cols.type[i] });
+      }
+    });
+    if (res.length) return res;
+  } catch (e) { /* on bascule sur la méthode simple ci-dessous */ }
+
+  const t = await grist.docApi.fetchTable(tableId);
+  return Object.keys(t)
+    .filter(c => c !== "id" && c !== "manualSort" && !c.startsWith("gristHelper_"))
+    .map(c => ({ id: c, label: c, type: null }));
+}
+
+// Adapte la valeur au type de la colonne Grist
+function encoder(valeur, type, multiple) {
+  const liste = Array.isArray(valeur) ? valeur : (valeur ? [valeur] : []);
+  if (type ? type.startsWith("ChoiceList") : multiple) return ["L", ...liste];
+  return Array.isArray(valeur) ? valeur.join(", ") : (valeur ?? "");
 }
 
 async function envoyerVersGrist(donnees) {
   if (!window.grist) throw new Error("API Grist introuvable : ouvrez ce formulaire depuis Grist");
   const tableId = CONFIG.TABLE_ID || await grist.selectedTable.getTableId();
+  const colonnes = await lireColonnes(tableId);
 
-  // Contrôle : chaque colonne attendue existe-t-elle dans la table ?
-  const existantes = Object.keys(await grist.docApi.fetchTable(tableId))
-    .filter(c => c !== "id" && c !== "manualSort" && !c.startsWith("gristHelper_"));
-  const manquantes = Object.values(CONFIG.COLONNES).filter(c => !existantes.includes(c));
-  if (manquantes.length) {
-    throw new Error("Colonnes introuvables dans la table « " + tableId + " » : " + manquantes.join(", ") +
-      ". Colonnes disponibles : " + existantes.join(", "));
+  const record = {};
+  const introuvables = [];
+  for (const [champ, libelle] of Object.entries(CONFIG.COLONNES)) {
+    const cle = normaliser(libelle);
+    const col = colonnes.find(c => normaliser(c.label).startsWith(cle))
+             || colonnes.find(c => normaliser(c.id).startsWith(cle));
+    if (!col) { introuvables.push(libelle); continue; }
+    record[col.id] = encoder(donnees[champ], col.type, CONFIG.CHAMPS_MULTIPLES.includes(champ));
   }
-  await grist.docApi.applyUserActions([
-    ["AddRecord", tableId, null, encoderPourGrist(donnees)]
-  ]);
+  if (introuvables.length) {
+    throw new Error("Colonnes introuvables dans la table « " + tableId + " » : " + introuvables.join(" | ") +
+      ". Colonnes disponibles : " + colonnes.map(c => c.label).join(" | "));
+  }
+
+  await grist.docApi.applyUserActions([["AddRecord", tableId, null, record]]);
 }
 
 form.addEventListener("submit", async (e) => {
